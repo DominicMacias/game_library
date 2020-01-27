@@ -10,24 +10,42 @@ import pickle as p
 ''' Command Functions '''
 def add_or_edit():
     print("running add_or_edit()")
-
+    
+    
 def print_all():
     print("running print_all()")
 
 def search():
     print("running search()")
 
-def remove():
+def remove_game():
     print("running remove()")
 
 def save():
-    print("running save()")
+    #print("running save()")
+    pickle_file = open("datafile.pickle", "wb")
+    pickle.dump(games, pickle_file)
+    pickle_file.close()
 
 def quit():
-    print("running quit()")
+    #print("running quit()")
+    confirm_quit = input("Would you live to save before quitting?(y/n) ")
+    if confirm_quit == "y" or confirm_quit == "Y":
+        print("Saving File...")
+        save()
+
+''' File Loader '''
+games = {1:['FPS', 'Halo 3', 'Bungie', 'Microsoft', 'Xbox 360', '2007',
+            '10', 'either', '30.00', 'Yes', '1/15/2008',
+            'Cool game.'}
+pickle_file = open("datafile.pickle", "rb")
+games = pickle.load(pickle_file)
+pickle_file.close()
+
 
 ''' Main Function '''
-while True:
+keep_going = True
+while keep_going:
     print("""
     Welcome to the Game Library
     ---------------------------
@@ -50,14 +68,15 @@ while True:
     elif choice == "3":
         search()
     elif choice == "4":
-        remove()
+        remove_game()
     elif choice == "5":
         save()
 
     elif choice == "Q" or choice == "q":
         quit()
-
+        keep_going = False
+        
     else:
         print("Command not found")
 
-print("Oh no. Something went horribly wrong.")
+print("Goodbye.")
