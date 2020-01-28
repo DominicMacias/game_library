@@ -13,7 +13,21 @@ def add_or_edit():
     
     
 def print_all():
-    print("running print_all()")
+    #print("running print_all()")
+    for i in games.keys():
+        print("Genre:              ", games[i][0], "\n"
+              "Title:              ", games[i][1], "\n"
+              "Developer:          ", games[i][2], "\n"
+              "Publisher:          ", games[i][3], "\n"
+              "Platform:           ", games[i][4], "\n"
+              "Release Date:       ", games[i][5], "\n"
+              "Rating:             ", games[i][6], "\n"
+              "Single/Multi/Either:", games[i][7], "\n"
+              "Price:              ", games[i][8], "\n"
+              "Beat it?:           ", games[i][9], "\n"
+              "Purchase Date:      ", games[i][10], "\n"
+              "Notes:              ", games[i][11], "\n"
+              "-------------------")
 
 def search():
     print("running search()")
@@ -23,25 +37,20 @@ def remove_game():
 
 def save():
     #print("running save()")
-    pickle_file = open("datafile.pickle", "wb")
-    pickle.dump(games, pickle_file)
-    pickle_file.close()
+    datafile = open("game_lib.pickle", "wb")
+    p.dump(games, datafile)
+    datafile.close()
 
 def quit():
     #print("running quit()")
     confirm_quit = input("Would you live to save before quitting?(y/n) ")
     if confirm_quit == "y" or confirm_quit == "Y":
-        print("Saving File...")
         save()
 
 ''' File Loader '''
-games = {1:['FPS', 'Halo 3', 'Bungie', 'Microsoft', 'Xbox 360', '2007',
-            '10', 'either', '30.00', 'Yes', '1/15/2008',
-            'Cool game.'}
-pickle_file = open("datafile.pickle", "rb")
-games = pickle.load(pickle_file)
-pickle_file.close()
-
+datafile = open("game_lib.pickle", "rb")
+games = p.load(datafile)
+datafile.close()
 
 ''' Main Function '''
 keep_going = True
