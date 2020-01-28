@@ -6,11 +6,34 @@
 
 ''' Imports '''
 import pickle as p
+import dictionary_reset
 
 ''' Command Functions '''
 def add_or_edit():
-    print("running add_or_edit()")
-    
+    genre = input("What is the genre? ")
+    title = input("What is the title of the game? ")
+    developer = input("Who developed the game? ")
+    publisher = input("Who published it? ")
+    platform = input("What platform(s) are able to play this game? ")
+    release_date = input("When was this game released (mm/dd/yyyy)? ")
+    rating = input("What would you rate this game? ")
+    single_or_multi = input("Is this game singleplayer, multiplayer, or either? ")
+    price = input("How much does this game cost? ")
+    beat_it = input("Have you beaten this game? ")
+    purchase_date = input("When did you purchase this game (mm/dd/yyyy)? ")
+    notes = input("Any extra notes? ")
+    found = False
+    for key in games.keys():
+        if title == games[key][1]:
+            games[key] = [genre, title, developer, publisher, platform, release_date,
+                          rating, single_or_multi, price, beat_it, purchase_date,
+                          notes]
+            found = True
+            break
+    if not found:
+        games[len(games) + 1] = [genre, title, developer, publisher, platform, release_date,
+                                 rating, single_or_multi, price, beat_it, purchase_date,
+                                 notes]
     
 def print_all():
     #print("running print_all()")
@@ -23,7 +46,7 @@ def print_all():
               "Release Date:       ", games[i][5], "\n"
               "Rating:             ", games[i][6], "\n"
               "Single/Multi/Either:", games[i][7], "\n"
-              "Price:              ", games[i][8], "\n"
+              "Price (USD):        ", games[i][8], "\n"
               "Beat it?:           ", games[i][9], "\n"
               "Purchase Date:      ", games[i][10], "\n"
               "Notes:              ", games[i][11], "\n"
@@ -48,9 +71,13 @@ def quit():
         save()
 
 ''' File Loader '''
-datafile = open("game_lib.pickle", "rb")
-games = p.load(datafile)
-datafile.close()
+try:
+    datafile = open("game_lib.pickle", "rb")
+    games = p.load(datafile)
+    datafile.close()
+except:
+    #Separate program in the case of a problem with the pickle file.
+    dictionary_reset.Reset
 
 ''' Main Function '''
 keep_going = True
