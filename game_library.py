@@ -38,22 +38,37 @@ def add_or_edit():
 def print_all():
     #print("running print_all()")
     for i in games.keys():
-        print("Genre:              ", games[i][0], "\n"
-              "Title:              ", games[i][1], "\n"
-              "Developer:          ", games[i][2], "\n"
-              "Publisher:          ", games[i][3], "\n"
-              "Platform:           ", games[i][4], "\n"
-              "Release Date:       ", games[i][5], "\n"
-              "Rating:             ", games[i][6], "\n"
-              "Single/Multi/Either:", games[i][7], "\n"
-              "Price (USD):        ", games[i][8], "\n"
-              "Beat it?:           ", games[i][9], "\n"
-              "Purchase Date:      ", games[i][10], "\n"
-              "Notes:              ", games[i][11], "\n"
-              "-------------------")
+        print_game(games[i])
+        
+def print_game(game):
+    print("Genre:              ", game[0], "\n"
+          "Title:              ", game[1], "\n"
+          "Developer:          ", game[2], "\n"
+          "Publisher:          ", game[3], "\n"
+          "Platform:           ", game[4], "\n"
+          "Release Date:       ", game[5], "\n"
+          "Rating:             ", game[6], "\n"
+          "Single/Multi/Either:", game[7], "\n"
+          "Price (USD):        ", game[8], "\n"
+          "Beat it?:           ", game[9], "\n"
+          "Purchase Date:      ", game[10], "\n"
+          "Notes:              ", game[11], "\n"
+          "-------------------")    
 
 def search():
-    print("running search()")
+    #print("running search()")
+    found = False
+    ent_title = input("Enter Title: ")
+    for key in games.keys():
+        if ent_title == games[key][1]:
+            found = True
+            selected_game = key
+            break
+        
+    if found:
+        print_game(games[selected_game])
+    if not found:
+        print("Game Not Found")
 
 def remove_game():
     print("running remove()")
