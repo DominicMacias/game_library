@@ -48,9 +48,9 @@ def print_game(game):
           "Platform:           ", game[4], "\n"
           "Release Date:       ", game[5], "\n"
           "Rating:             ", game[6], "\n"
-          "Single/Multi/Either:", game[7], "\n"
+          "Mode(s)?:           ", game[7], "\n"
           "Price (USD):        ", game[8], "\n"
-          "Beat it?:           ", game[9], "\n"
+          "Completed?:         ", game[9], "\n"
           "Purchase Date:      ", game[10], "\n"
           "Notes:              ", game[11], "\n"
           "-------------------")    
@@ -58,17 +58,41 @@ def print_game(game):
 def search():
     #print("running search()")
     found = False
-    ent_title = input("Enter Title: ")
+    ent_keyword = input("What are you searching for? ")
+    if ent_keyword == "Genre" or ent_keyword == "genre":
+        search_dictionary(term_answer = "genre", selected_term = 0)
+    if ent_keyword == "Title" or ent_keyword == "title":
+        search_dictionary(term_answer = "title", selected_term = 1)
+    if ent_keyword == "Developer" or ent_keyword == "developer":
+        search_dictionary(term_answer = "developer", selected_term = 2)
+    if ent_keyword == "Publisher" or ent_keyword == "publisher":
+        search_dictionary(term_answer = "publisher", selected_term = 3)
+    if ent_keyword == "Platform" or ent_keyword == "platform":
+        search_dictionary(term_answer = "platform", selected_term = 4)
+    if ent_keyword == "Release Date" or ent_keyword == "release date":
+        search_dictionary(term_answer = "release date [mm/dd/yyyy]", selected_term = 5)
+    if ent_keyword == "Rating" or ent_keyword == "Rating":
+        search_dictionary(term_answer = "rating (out of 10)", selected_term = 6)
+    if ent_keyword == "Modes" or ent_keyword == "modes":
+        search_dictionary(term_answer = "gamemode(s) [Single/Multi/Either]", selected_term = 7)
+    if ent_keyword == "Price" or ent_keyword == "price":
+        search_dictionary(term_answer = "price (in USD)", selected_term = 8)
+    if ent_keyword == "Completed" or ent_keyword == "completed":
+        search_dictionary(term_answer = "completion (Yes/No)", selected_term = 9)
+    if ent_keyword == "Purchase Date" or ent_keyword == "purchase date":
+        search_dictionary(term_answer = "purchase date [mm/dd/yyyy]", selected_term = 10)
+
+
+def search_dictionary(term_answer, selected_term = 0):
+    term_value = input("Enter " + term_answer + ": ")
     for key in games.keys():
-        if ent_title == games[key][1]:
-            found = True
+        if term_value in games[key][selected_term]:
             selected_game = key
-            break
-        
-    if found:
-        print_game(games[selected_game])
+            print_game(games[selected_game])
+            found = True
+    
     if not found:
-        print("Game Not Found")
+        print("Game Not Found")    
 
 def remove_game():
     print("running remove()")
@@ -104,7 +128,7 @@ while keep_going:
     MAIN MENU
     1) Add/Edit Game
     2) Print All Games
-    3) Search by Title
+    3) Search
     4) Remove a Game
     5) Save Database
     
