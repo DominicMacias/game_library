@@ -95,7 +95,19 @@ def search_dictionary(term_answer, selected_term = 0):
         print("Game Not Found")    
 
 def remove_game():
-    print("running remove()")
+    #print("running remove()")
+    selected_title = input("What is the title you would like to delete? ")
+    title_found = False
+    for key in games.keys():
+        if selected_title in games[key][1]:
+            print_game(games[selected_title])
+            confirm_deletion = input("Are you sure you want to delete this (Y/N)? ")
+            if confirm_deletion == "Y" or confirm_deletion == "y":
+                games.pop(selected_title)
+                print(selected_title, "removed.")
+            title_found = True
+    if not title_found:
+        print("Game Not Found")
 
 def save():
     #print("running save()")
