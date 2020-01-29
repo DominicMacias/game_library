@@ -99,13 +99,14 @@ def remove_game():
     selected_title = input("What is the title you would like to delete? ")
     title_found = False
     for key in games.keys():
-        if selected_title in games[key][1]:
-            print_game(games[selected_title])
+        if selected_title == games[key][1]:
+            print_game(games[key])
             confirm_deletion = input("Are you sure you want to delete this (Y/N)? ")
             if confirm_deletion == "Y" or confirm_deletion == "y":
-                games.pop(selected_title)
+                games.pop(key)
                 print(selected_title, "removed.")
             title_found = True
+            break
     if not title_found:
         print("Game Not Found")
 
