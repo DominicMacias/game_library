@@ -11,7 +11,6 @@ import dictionary_reset
 ''' Command Functions '''
 def add_or_edit():
     valid = False
-    found = False
     choose_method = input("Are we adding or editing (Add/Edit) ")
     while not valid:
         if choose_method == "Add" or choose_method == "add":
@@ -19,7 +18,7 @@ def add_or_edit():
             print_game(new_entry)
         if choose_method == "Edit" or choose_method == "edit":
             new_entry = ask_questions(editing = True)
-            print_game(new_entry)
+            print_game(new_entry[0])
         
         confirm_changes = input("Is this information correct (y/n)? ")
         if confirm_changes == "Y" or confirm_changes == "y":
@@ -30,15 +29,14 @@ def add_or_edit():
 
     if choose_method == "Edit" or choose_method == "edit":
         for key in games.keys():
-            if new_entry[1] == games[key][1]:
-                games[key] = new_entry
-                break
+            games[new_entry[1]] = new_entry[0]
+            break
     
 def ask_questions(editing = False):
     confirm_edit = ""
     while editing and (confirm_edit != "Y" and confirm_edit != "y"):
         print("Original game information:")
-        search_dictionary(term_answer = "title", selected_term = 1)
+        old_info = search_dictionary(term_answer = "title", selected_term = 1)
         confirm_edit = input("Are you sure you'd like to edit this (y/n)? ")
 
     genre = input("What is the genre? ")
@@ -56,7 +54,16 @@ def ask_questions(editing = False):
     answers = [genre, title, developer, publisher, platform, release_date,
                  rating, single_or_multi, price, beat_it, purchase_date,
                  notes]
+    if editing:
+        answers = keep_old_changes(answers, old_info)
+        return answers, old_info[1]
     return answers
+    
+def keep_old_changes(entries, old_entries):
+    for terms in range(12):
+        if entries[terms] == "":
+            entries[terms] = old_entries[0][terms]
+    return entries
     
 def print_all():
     #print("running print_all()")
@@ -115,7 +122,9 @@ def search_dictionary(term_answer, selected_term = 0):
             found = True
     
     if not found:
-        print("No games found with this tag")    
+        print("No games found with this tag")
+    
+    return games[selected_game], selected_game
 
 def remove_game():
     #print("running remove()")
