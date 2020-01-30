@@ -10,6 +10,37 @@ import dictionary_reset
 
 ''' Command Functions '''
 def add_or_edit():
+    valid = False
+    found = False
+    choose_method = input("Are we adding or editing (Add/Edit) ")
+    while not valid:
+        if choose_method == "Add" or choose_method == "add":
+            new_entry = ask_questions()
+            print_game(new_entry)
+        if choose_method == "Edit" or choose_method == "edit":
+            new_entry = ask_questions(editing = True)
+            print_game(new_entry)
+        
+        confirm_changes = input("Is this information correct (y/n)? ")
+        if confirm_changes == "Y" or confirm_changes == "y":
+            valid = True
+    
+    if choose_method == "Add" or choose_method == "add":
+        games[len(games) + 1] = new_entry    
+
+    if choose_method == "Edit" or choose_method == "edit":
+        for key in games.keys():
+            if new_entry[1] == games[key][1]:
+                games[key] = new_entry
+                break
+    
+def ask_questions(editing = False):
+    confirm_edit = ""
+    while editing and (confirm_edit != "Y" and confirm_edit != "y"):
+        print("Original game information:")
+        search_dictionary(term_answer = "title", selected_term = 1)
+        confirm_edit = input("Are you sure you'd like to edit this (y/n)? ")
+
     genre = input("What is the genre? ")
     title = input("What is the title of the game? ")
     developer = input("Who developed the game? ")
@@ -22,18 +53,10 @@ def add_or_edit():
     beat_it = input("Have you beaten this game? ")
     purchase_date = input("When did you purchase this game (mm/dd/yyyy)? ")
     notes = input("Any extra notes? ")
-    found = False
-    for key in games.keys():
-        if title == games[key][1]:
-            games[key] = [genre, title, developer, publisher, platform, release_date,
-                          rating, single_or_multi, price, beat_it, purchase_date,
-                          notes]
-            found = True
-            break
-    if not found:
-        games[len(games) + 1] = [genre, title, developer, publisher, platform, release_date,
-                                 rating, single_or_multi, price, beat_it, purchase_date,
-                                 notes]
+    answers = [genre, title, developer, publisher, platform, release_date,
+                 rating, single_or_multi, price, beat_it, purchase_date,
+                 notes]
+    return answers
     
 def print_all():
     #print("running print_all()")
@@ -92,7 +115,7 @@ def search_dictionary(term_answer, selected_term = 0):
             found = True
     
     if not found:
-        print("Game Not Found")    
+        print("No games found with this tag")    
 
 def remove_game():
     #print("running remove()")
