@@ -25,12 +25,13 @@ def add_or_edit():
             valid = True
     
     if choose_method == "Add" or choose_method == "add":
-        games[len(games) + 1] = new_entry    
+        for i in range(1,len(games)+2):
+            if games[i] not in games.keys():
+                games[i] = new_entry
+                break  
 
     if choose_method == "Edit" or choose_method == "edit":
-        for key in games.keys():
-            games[new_entry[1]] = new_entry[0]
-            break
+        games[new_entry[1]] = new_entry[0]
     
 def ask_questions(editing = False):
     confirm_edit = ""
@@ -65,9 +66,11 @@ def keep_old_changes(entries, old_entries):
             entries[terms] = old_entries[0][terms]
     return entries
     
-def print_all():
+def print_all(with_keys = False):
     #print("running print_all()")
     for i in games.keys():
+        if with_keys == True:
+            print("Key #" + str(i))
         print_game(games[i])
         
 def print_game(game):
@@ -127,19 +130,19 @@ def search_dictionary(term_answer, selected_term = 0):
     return games[selected_game], selected_game
 
 def remove_game():
-    #print("running remove()")
-    selected_title = input("What is the title you would like to delete? ")
-    title_found = False
-    for key in games.keys():
-        if selected_title == games[key][1]:
-            print_game(games[key])
-            confirm_deletion = input("Are you sure you want to delete this (Y/N)? ")
-            if confirm_deletion == "Y" or confirm_deletion == "y":
-                games.pop(key)
-                print(selected_title, "removed.")
-            title_found = True
-            break
-    if not title_found:
+    print_all(with_keys=True)
+    selected_key = input("What is the key you would like to delete? ")
+    try:
+        selected_key = int(selected_key)
+        print_game(games[selected_key])
+        confirm_deletion = input("Are you sure you want to delete this (Y/N)? ")
+        if confirm_deletion == "Y" or confirm_deletion == "y":
+            for key in range(1, len(games)+1):
+                if key >= selected_key and key != len(games):
+                    games[i] = games[i+1]
+                if key == len(games):
+                    games.pop(key)
+    except:
         print("Game Not Found")
 
 def save():
